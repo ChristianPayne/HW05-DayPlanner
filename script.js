@@ -1,7 +1,6 @@
 // TODO: 
 // TODO: Break code into functions.
 // TODO: Display date at top of page. id=currentDay
-// TODO: Set up entry object.
 // TODO: Get time functions.
 // TODO: Add colors.
 
@@ -20,33 +19,65 @@ $(document).ready(function(){
         "5pm"
     ];
 
+
+    // Set the date at the top with specific formatting.
+    $("#currentDay").text(getDate());
+
+
+
     makeEntries();
 
     function makeEntries ()
     {
+        var present = false;
+
         for (var i = 0; i < hoursToDisplay.length; i++) 
         {
             var newEntry = $("<div>");
-            newEntry.addClass("row input-group");
+            newEntry.addClass("row time-block input-group");
 
             var entryHour = $("<p>");
-            entryHour.addClass("hour p-4 input-group-prepend");
+            entryHour.addClass("hour input-group-prepend");
             entryHour.text(hoursToDisplay[i]);
 
 
-            var entryInput = $("<input>");
+            var entryInput = $("<textarea>");
             entryInput.addClass("submit-button w-75 description");
+
+            // console.log(parseInt(hoursToDisplay[i]));
+
+            
+            // By default, add the future class.
+            entryInput.addClass("future");
+            
+            // If we find the present hour, mark present as true and set class to present.
+            if (parseInt(hoursToDisplay[i]) == parseInt(getHour())) 
+            {
+                entryInput.removeClass("future");
+                entryInput.addClass("present");
+                present = true;
+            }
+            // If we havent found present yet, we are looking at past.
+            else if (present === false)
+            {
+                entryInput.removeClass("future");
+                entryInput.addClass("past");
+            }
+
             var inputVal = getLocalStorage(hoursToDisplay[i]);
+
+            // If the value from localStorage is not empty, then set the input field to be that.
             if(inputVal)
             {
-                console.log("Read a value");
+                // Set this text box to what is in storage.
                 entryInput.val(inputVal);
             }
 
-            // Set this text box to what is in storage.
 
 
+            // Make a new button
             var entryButton = $("<btn>");
+            // Add all the classes to make it a save button.
             entryButton.addClass("btn btn-info input-group-append saveBtn");
             // TODO: Make this into a submit button
             entryButton.attr("type", "submit");
@@ -60,6 +91,8 @@ $(document).ready(function(){
                 setLocalStorage(event.data.hour, event.data.value.val());
             });
 
+
+            // Append all the elements to the entry then to the container.
             newEntry.append(entryHour);
             newEntry.append(entryInput);
             newEntry.append(entryButton);
@@ -74,12 +107,12 @@ $(document).ready(function(){
     //#region Time
     function getDate ()
     {
-
+        return moment().format("MMMM Do, YYYY");
     }
 
     function getHour ()
     {
-
+        return moment().format('ha');
     }
     //#endregion
 
