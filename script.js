@@ -31,22 +31,24 @@ $(document).ready(function(){
     {
         var present = false;
 
+        // Loop through all the hours for the page and make the rows.
         for (var i = 0; i < hoursToDisplay.length; i++) 
         {
+            // Create the div that holds all the elements for the row.
             var newEntry = $("<div>");
             newEntry.addClass("row time-block input-group");
 
+            // Create the hour label at the front of each row.
             var entryHour = $("<p>");
             entryHour.addClass("hour input-group-prepend");
             entryHour.text(hoursToDisplay[i]);
 
-
+            // Create the input field for the user.
             var entryInput = $("<textarea>");
             entryInput.addClass("submit-button w-75 description");
 
-            // console.log(parseInt(hoursToDisplay[i]));
-
             
+            //#region Colors
             // By default, add the future class.
             entryInput.addClass("future");
             
@@ -57,16 +59,17 @@ $(document).ready(function(){
                 entryInput.addClass("present");
                 present = true;
             }
-            // If we havent found present yet, we are looking at past.
+            // If we haven't found present yet, we are looking at past.
             else if (present === false)
             {
                 entryInput.removeClass("future");
                 entryInput.addClass("past");
             }
+            //#endregion
 
-            var inputVal = getLocalStorage(hoursToDisplay[i]);
-
+            
             // If the value from localStorage is not empty, then set the input field to be that.
+            var inputVal = getLocalStorage(hoursToDisplay[i]);
             if(inputVal)
             {
                 // Set this text box to what is in storage.
@@ -79,6 +82,7 @@ $(document).ready(function(){
             var entryButton = $("<btn>");
             // Add all the classes to make it a save button.
             entryButton.addClass("btn btn-info input-group-append saveBtn");
+            
             // TODO: Make this into a submit button
             entryButton.attr("type", "submit");
             // entryButton.attr("value", "Submit");
