@@ -8,15 +8,15 @@ $(document).ready(function(){
     var container = $(".container");
 
     var hoursToDisplay = [
-        "9am",
-        "10am",
-        "11am",
-        "12pm",
-        "1pm",
-        "2pm",
-        "3pm",
-        "4pm",
-        "5pm"
+        "09",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17"
     ];
 
 
@@ -29,8 +29,6 @@ $(document).ready(function(){
 
     function makeEntries ()
     {
-        var present = false;
-
         // Loop through all the hours for the page and make the rows.
         for (var i = 0; i < hoursToDisplay.length; i++) 
         {
@@ -41,31 +39,38 @@ $(document).ready(function(){
             // Create the hour label at the front of each row.
             var entryHour = $("<p>");
             entryHour.addClass("hour input-group-prepend");
-            entryHour.text(hoursToDisplay[i]);
+            entryHour.text(convertTo12Hr(hoursToDisplay[i]));
 
             // Create the input field for the user.
             var entryInput = $("<textarea>");
             entryInput.addClass("submit-button w-75 description");
 
             
-            //#region Colors
-            // By default, add the future class.
-            entryInput.addClass("future");
             
-            // If we find the present hour, mark present as true and set class to present.
-            if (parseInt(hoursToDisplay[i]) == parseInt(getHour())) 
+            //#region Colors
+            if(parseInt(getHour24()) < parseInt(hoursToDisplay[i]))
             {
-                entryInput.removeClass("future");
-                entryInput.addClass("present");
-                present = true;
+                // Future
+                entryInput.addClass("future");
             }
-            // If we haven't found present yet, we are looking at past.
-            else if (present === false)
+            else if (getHour24() > hoursToDisplay[i])
             {
-                entryInput.removeClass("future");
+                // Past
                 entryInput.addClass("past");
             }
+            else if (parseInt(getHour24()) === parseInt(hoursToDisplay[i]))
+            {
+                // Present
+                entryInput.addClass("present");
+            }
+            else
+            {
+                console.warn("Could not set color.");
+            }
             //#endregion
+
+
+
 
             
             // If the value from localStorage is not empty, then set the input field to be that.
@@ -82,7 +87,7 @@ $(document).ready(function(){
             var entryButton = $("<btn>");
             // Add all the classes to make it a save button.
             entryButton.addClass("btn btn-info input-group-append saveBtn");
-            
+
             // TODO: Make this into a submit button
             entryButton.attr("type", "submit");
             // entryButton.attr("value", "Submit");
@@ -114,10 +119,19 @@ $(document).ready(function(){
         return moment().format("MMMM Do, YYYY");
     }
 
-    function getHour ()
+    function getHour24 ()
     {
-        return moment().format('ha');
+        return moment().format('H');
     }
+
+    function convertTo12Hr(time24)
+    {
+        var AmOrPm = time24 >= 12 ? 'pm' : 'am';
+        time24 = (time24 % 12) || 12;
+        var finalTime = time24 + AmOrPm; 
+        return finalTime;
+    }
+
     //#endregion
 
 
