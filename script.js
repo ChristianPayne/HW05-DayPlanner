@@ -1,12 +1,8 @@
-// TODO: 
-// TODO: Break code into functions.
-// TODO: Display date at top of page. id=currentDay
-// TODO: Get time functions.
-// TODO: Add colors.
-
 $(document).ready(function(){
+    // Reference to the container that we are putting the rows in.
     var container = $(".container");
 
+    // Hours to display but in 24 hour time.
     var hoursToDisplay = [
         "09",
         "10",
@@ -20,7 +16,7 @@ $(document).ready(function(){
     ];
 
 
-    // Set the date at the top with specific formatting.
+    // Set the date at the top of the page with specific formatting.
     $("#currentDay").text(getDate());
 
 
@@ -69,9 +65,6 @@ $(document).ready(function(){
             }
             //#endregion
 
-
-
-
             
             // If the value from localStorage is not empty, then set the input field to be that.
             var inputVal = getLocalStorage(hoursToDisplay[i]);
@@ -80,7 +73,6 @@ $(document).ready(function(){
                 // Set this text box to what is in storage.
                 entryInput.val(inputVal);
             }
-
 
 
             // Make a new button
@@ -131,7 +123,6 @@ $(document).ready(function(){
         var finalTime = time24 + AmOrPm; 
         return finalTime;
     }
-
     //#endregion
 
 
