@@ -29,7 +29,8 @@ $(document).ready(function(){
         for (var i = 0; i < hoursToDisplay.length; i++) 
         {
             // Create the div that holds all the elements for the row.
-            var newEntry = $("<div>");
+            var newForm = $("<form>")
+            var newEntry = $("<form-group>");
             newEntry.addClass("row time-block input-group");
 
             // Create the hour label at the front of each row.
@@ -79,26 +80,25 @@ $(document).ready(function(){
             var entryButton = $("<btn>");
             // Add all the classes to make it a save button.
             entryButton.addClass("btn btn-info input-group-append saveBtn");
-
-            // TODO: Make this into a submit button
-            entryButton.attr("type", "submit");
-            // entryButton.attr("value", "Submit");
             entryButton.text("Save");
 
             // Add an on click passing the input field and the function to call.
             entryButton.on("click", {hour: hoursToDisplay[i], value : entryInput},function (event)
             {
+                event.preventDefault();
                 // Sets the values of the input field in localStorage.
                 setLocalStorage(event.data.hour, event.data.value.val());
             });
 
 
-            // Append all the elements to the entry then to the container.
+            // Append all the elements to the entry then form then to the container.
             newEntry.append(entryHour);
             newEntry.append(entryInput);
             newEntry.append(entryButton);
+            
+            newForm.append(newEntry);
 
-            container.append(newEntry);
+            container.append(newForm);
         }
         
     }
