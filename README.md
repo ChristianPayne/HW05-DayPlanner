@@ -1,3 +1,6 @@
+GitHub Pages link: https://christianpayne.github.io/HW05-DayPlanner/
+
+
 # 05 Third-Party APIs: Work Day Scheduler
 
 ## Your Task
